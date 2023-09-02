@@ -1,3 +1,3 @@
 module.exports = {
-	fileTool: require('./file.tool'),
+	multerTool: require('./multer.tool'),
 };
