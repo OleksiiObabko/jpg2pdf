@@ -15,8 +15,8 @@ html
                 p
                     a(href='/new') New +
                 div(class='listWithHandle')
-                  each imagePath in imagePaths
-                      img(src=`/images/${imagePath}`, data-name=`${imagePath}` alt=image,)
+                  each imageName in imageNames
+                      img(src=`/images/${imageName}`, data-name=`${imageName}` alt=image,)
                 p
                     a(class='convert')
                         span(class='text') Convert to PDF &rarr;

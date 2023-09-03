@@ -1,4 +1,7 @@
 const sharp = require('sharp');
+const path = require('path');
+
+const {imgDir} = require('../enums/path.enum');
 
 module.exports = {
 	rotateImage: async (img, deg) => {
@@ -6,7 +9,7 @@ module.exports = {
 
 		await sharp(img.buffer)
 			.rotate(deg)
-			.toFile(`src/public/images/${imgName}`);
+			.toFile(path.join(imgDir, imgName));
 	},
 	getDimensions: async (imgPath, pageWidth, pageHeight) => {
 		const imgInfo = await sharp(imgPath).metadata();

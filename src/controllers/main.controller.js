@@ -3,16 +3,17 @@ const fs = require('fs');
 const PDFDocument = require('pdfkit');
 
 const {sharpTool} = require('../tools');
+const {htmlDir, imgDir, pdfDir} = require('../enums/path.enum');
 
 module.exports = {
 	renderMainPage: (req, res, next) => {
 		try {
-			const {imagePaths} = req.session;
+			const {imageNames} = req.session;
 
-			if (imagePaths === undefined) {
-				res.sendFile(path.join(__dirname, '..', '/public/html/index.html'));
+			if (imageNames === undefined) {
+				res.sendFile(path.join(htmlDir, 'index.html'));
 			} else {
-				res.render('index', {imagePaths});
+				res.render('index', {imageNames});
 			}
 		} catch (e) {
 			next(e);
@@ -21,17 +22,17 @@ module.exports = {
 	uploadImages: async (req, res, next) => {
 		try {
 			let files = req.files;
-			let imagePaths = [];
+			let imageNames = [];
 
 			for (const file of files) {
 				const filename = Date.now() + '.' + file.mimetype.split('/')[1];
 
 				await sharpTool.rotateImage(file, 90);
 
-				imagePaths.push(filename);
+				imageNames.push(filename);
 			}
 
-			req.session.imagePaths = imagePaths;
+			req.session.imageNames = imageNames;
 			res.redirect('/');
 		} catch (e) {
 			next(e);
@@ -39,18 +40,22 @@ module.exports = {
 	},
 	convertToPdf: async (req, res, next) => {
 		try {
-			let body = req.body;
-			let doc = new PDFDocument({size: 'A4', autoFirstPage: false});
-			let pdfName = Date.now() + '.pdf';
+			const body = req.body;
+			const doc = new PDFDocument({size: 'A4', autoFirstPage: false});
+			const pdfName = Date.now() + '.pdf';
 
-			doc.pipe(fs.createWriteStream(path.join(__dirname, '..', `/public/pdf/${pdfName}`)));
+			const pageWidth = 595.28; // A4
+			const pageHeight = 841.89; // A4
 
-			const pageWidth = 595.28; // Width of A4 page in points
-			const pageHeight = 841.89; // Height of A4 page in points
+			doc.pipe(fs.createWriteStream(path.join(pdfDir, pdfName)));
 
-			for (let name of body) {
-				const imgPath = path.join(__dirname, '..', '/public/images/', name);
-				const {width, height, x, y} = await sharpTool.getDimensions(imgPath, pageWidth, pageHeight);
+			for (const name of body) {
+				const imgPath = path.join(imgDir, name);
+				const {width, height, x, y} = await sharpTool.getDimensions(
+					imgPath,
+					pageWidth,
+					pageHeight,
+				);
 
 				doc.addPage();
 				doc.image(imgPath, x, y, {
