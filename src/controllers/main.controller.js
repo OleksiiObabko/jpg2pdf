@@ -2,6 +2,8 @@ const path = require('path');
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
 
+const {sharpTool} = require('../tools');
+
 module.exports = {
 	renderMainPage: (req, res, next) => {
 		try {
@@ -21,9 +23,15 @@ module.exports = {
 			let files = req.files;
 			let imagePaths = [];
 
-			files.map(file => imagePaths.push(file.filename));
-			req.session.imagePaths = imagePaths;
+			for (const file of files) {
+				const filename = Date.now() + '.' + file.mimetype.split('/')[1];
 
+				await sharpTool.rotateImage(file, 90);
+
+				imagePaths.push(filename);
+			}
+
+			req.session.imagePaths = imagePaths;
 			res.redirect('/');
 		} catch (e) {
 			next(e);
@@ -37,13 +45,17 @@ module.exports = {
 
 			doc.pipe(fs.createWriteStream(path.join(__dirname, '..', `/public/pdf/${pdfName}`)));
 
+			const pageWidth = 595.28; // Width of A4 page in points
+			const pageHeight = 841.89; // Height of A4 page in points
+
 			for (let name of body) {
+				const imgPath = path.join(__dirname, '..', '/public/images/', name);
+				const {width, height, x, y} = await sharpTool.getDimensions(imgPath, pageWidth, pageHeight);
+
 				doc.addPage();
-				doc.image(path.join(__dirname, '..', `/public/images/${name}`), {
-					fit: [200, 200],
-					align: 'center',
-					valign: 'center',
-					angle: 0,
+				doc.image(imgPath, x, y, {
+					width,
+					height,
 				});
 			}
 			doc.end();
