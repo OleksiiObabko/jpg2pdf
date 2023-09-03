@@ -19,4 +19,9 @@ router.post(
 	mainController.convertToPdf,
 );
 
+router.get(
+	'/new',
+	mainController.newSession,
+)
+
 module.exports = router;

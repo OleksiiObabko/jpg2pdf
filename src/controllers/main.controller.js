@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const {unlink} = require('fs/promises');
 const PDFDocument = require('pdfkit');
 
 const {sharpTool} = require('../tools');
@@ -66,6 +67,23 @@ module.exports = {
 			doc.end();
 
 			res.send(`/pdf/${pdfName}`);
+		} catch (e) {
+			next(e);
+		}
+	},
+	newSession: async (req, res, next) => {
+		try {
+			const filenames = req.session.imageNames;
+
+			const deleteFiles = async (filenames) => {
+				const deleting = filenames.map((filename) => unlink(path.join(imgDir, filename)));
+				await Promise.all(deleting);
+			};
+
+			deleteFiles(filenames).then();
+			req.session.imageNames = undefined;
+
+			res.redirect('/');
 		} catch (e) {
 			next(e);
 		}
