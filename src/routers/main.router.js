@@ -14,4 +14,9 @@ router.post(
 	mainController.uploadImages,
 );
 
+router.post(
+	'/pdf',
+	mainController.convertToPdf,
+);
+
 module.exports = router;
