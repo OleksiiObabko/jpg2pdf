@@ -23,6 +23,12 @@ module.exports = {
 	},
 	rotateImgBeforeSave: async (img) => {
 		const imgName = Date.now() + '.' + img.mimetype.split('/')[1];
+		// create img dir in not exists
+		try {
+			await fs.access(imgDir);
+		} catch (e) {
+			await fs.mkdir(imgDir);
+		}
 
 		await sharp(img.buffer)
 			.rotate()

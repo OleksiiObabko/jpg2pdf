@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const {access, mkdir} = require('fs').promises;
 const {unlink} = require('fs/promises');
 const PDFDocument = require('pdfkit');
 
@@ -47,6 +48,13 @@ module.exports = {
 
 			const pageWidth = 595.28; // A4
 			const pageHeight = 841.89; // A4
+
+			// create pdf dir in not exists
+			try {
+				await access(pdfDir);
+			} catch (e) {
+				await mkdir(pdfDir);
+			}
 
 			doc.pipe(fs.createWriteStream(path.join(pdfDir, pdfName)));
 
