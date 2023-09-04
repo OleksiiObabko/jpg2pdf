@@ -74,7 +74,10 @@ module.exports = {
 			}
 			doc.end();
 
-			req.session.pdfName = pdfName;
+			if (!req.session.pdfNames) {
+				req.session.pdfNames = [];
+			}
+			req.session.pdfNames.push(pdfName);
 
 			res.send(`/pdf/${pdfName}`);
 		} catch (e) {
@@ -83,16 +86,25 @@ module.exports = {
 	},
 	newSession: async (req, res, next) => {
 		try {
-			const {imageNames, pdfName} = req.session;
+			const {imageNames, pdfNames} = req.session;
 
-			const deleteFiles = async (filenames) => {
-				const deleting = filenames.map((filename) => unlink(path.join(imgDir, filename)));
+			const deleteFiles = async (filenames, type) => {
+				let deleting;
+
+				if (type === 'img') {
+					 deleting = filenames.map((filename) => unlink(path.join(imgDir, filename)));
+				} else if (type === 'pdf') {
+					deleting = filenames.map((filename) => unlink(path.join(pdfDir, filename)));
+				}
+
 				await Promise.all(deleting);
 			};
 
-			deleteFiles(imageNames).then();
-			unlink(path.join(pdfDir, pdfName)).then();
+			deleteFiles(imageNames, 'img').then();
+			deleteFiles(pdfNames, 'pdf').then();
+
 			req.session.imageNames = undefined;
+			req.session.pdfNames = undefined;
 
 			res.redirect('/');
 		} catch (e) {
