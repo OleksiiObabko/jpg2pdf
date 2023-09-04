@@ -21,11 +21,11 @@ module.exports = {
 			console.error('Error rotating image:', error);
 		}
 	},
-	rotateImgBeforeSave: async (img, deg) => {
+	rotateImgBeforeSave: async (img) => {
 		const imgName = Date.now() + '.' + img.mimetype.split('/')[1];
 
 		await sharp(img.buffer)
-			.rotate(deg)
+			.rotate()
 			.toFile(path.join(imgDir, imgName));
 	},
 	getDimensions: async (imgPath, pageWidth, pageHeight) => {
