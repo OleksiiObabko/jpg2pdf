@@ -74,6 +74,8 @@ module.exports = {
 			}
 			doc.end();
 
+			req.session.pdfName = pdfName;
+
 			res.send(`/pdf/${pdfName}`);
 		} catch (e) {
 			next(e);
@@ -81,14 +83,15 @@ module.exports = {
 	},
 	newSession: async (req, res, next) => {
 		try {
-			const filenames = req.session.imageNames;
+			const {imageNames, pdfName} = req.session;
 
 			const deleteFiles = async (filenames) => {
 				const deleting = filenames.map((filename) => unlink(path.join(imgDir, filename)));
 				await Promise.all(deleting);
 			};
 
-			deleteFiles(filenames).then();
+			deleteFiles(imageNames).then();
+			unlink(path.join(pdfDir, pdfName)).then();
 			req.session.imageNames = undefined;
 
 			res.redirect('/');
