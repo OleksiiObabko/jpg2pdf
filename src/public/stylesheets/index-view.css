@@ -9,7 +9,7 @@ p a {
     cursor: pointer;
 }
 
-div {
+.listWithHandle {
     margin: auto;
     margin-bottom: 15px;
     padding: 10px;
@@ -29,6 +29,22 @@ div img {
     margin-right: 10px;
     margin-bottom: 10px;
     cursor: grab;
+}
+
+.item {
+    position: relative;
+}
+
+.rotate {
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ff6600;
+    cursor: pointer;
 }
 
 p a.download {

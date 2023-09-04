@@ -1,10 +1,27 @@
 const sharp = require('sharp');
 const path = require('path');
+const fs = require('fs').promises;
 
 const {imgDir} = require('../enums/path.enum');
 
 module.exports = {
-	rotateImage: async (img, deg) => {
+	rotateImgAfterSave: async (imgName) => {
+		try {
+			const imgPath = path.join(imgDir, imgName);
+			const tempFilePath = imgPath + '.temp';
+
+			await fs.rename(imgPath, tempFilePath);
+
+			await sharp(tempFilePath)
+				.rotate(90)
+				.toFile(imgPath);
+
+			await fs.unlink(tempFilePath);
+		} catch (error) {
+			console.error('Error rotating image:', error);
+		}
+	},
+	rotateImgBeforeSave: async (img, deg) => {
 		const imgName = Date.now() + '.' + img.mimetype.split('/')[1];
 
 		await sharp(img.buffer)

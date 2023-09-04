@@ -22,6 +22,11 @@ router.post(
 router.get(
 	'/new',
 	mainController.newSession,
-)
+);
+
+router.post(
+	'/rotate',
+	mainController.rotateSavedImg,
+);
 
 module.exports = router;

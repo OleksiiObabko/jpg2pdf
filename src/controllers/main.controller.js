@@ -28,7 +28,7 @@ module.exports = {
 			for (const file of files) {
 				const filename = Date.now() + '.' + file.mimetype.split('/')[1];
 
-				await sharpTool.rotateImage(file, 90);
+				await sharpTool.rotateImgBeforeSave(file, 90);
 
 				imageNames.push(filename);
 			}
@@ -84,6 +84,15 @@ module.exports = {
 			req.session.imageNames = undefined;
 
 			res.redirect('/');
+		} catch (e) {
+			next(e);
+		}
+	},
+	rotateSavedImg: async (req, res, next) => {
+		try {
+			await sharpTool.rotateImgAfterSave(req.body.imgName);
+
+			res.sendStatus(200);
 		} catch (e) {
 			next(e);
 		}

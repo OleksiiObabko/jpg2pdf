@@ -6,6 +6,7 @@ html
         link(rel='stylesheet' href='/stylesheets/style.css')
         link(rel='stylesheet' href='/stylesheets/index-view.css')
         script(type='module' src='/javascripts/sort.js' defer)
+        script(type='module' src='/javascripts/rotate.js' defer)
     body
         main
             header
@@ -16,7 +17,9 @@ html
                     a(href='/new') New +
                 div(class='listWithHandle')
                   each imageName in imageNames
-                      img(src=`/images/${imageName}`, data-name=`${imageName}` alt=image,)
+                      div(class='item')
+                        img(src=`/images/${imageName}`, data-name=`${imageName}` alt=image,)
+                        button(class='rotate')
                 p
                     a(class='convert')
                         span(class='text') Convert to PDF &rarr;
