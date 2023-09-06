@@ -1,11 +1,11 @@
 const path = require('path');
 const fs = require('fs');
-const {access, mkdir} = require('fs').promises;
-const {unlink} = require('fs/promises');
+const {access, mkdir, unlink} = require('fs/promises');
 const PDFDocument = require('pdfkit');
 
 const {sharpTool} = require('../tools');
 const {htmlDir, imgDir, pdfDir} = require('../enums/path.enum');
+const {ApiError} = require('../errors');
 
 module.exports = {
 	renderMainPage: (req, res, next) => {
@@ -92,7 +92,7 @@ module.exports = {
 				let deleting;
 
 				if (type === 'img') {
-					 deleting = filenames.map((filename) => unlink(path.join(imgDir, filename)));
+					deleting = filenames.map((filename) => unlink(path.join(imgDir, filename)));
 				} else if (type === 'pdf') {
 					deleting = filenames.map((filename) => unlink(path.join(pdfDir, filename)));
 				}
@@ -113,6 +113,14 @@ module.exports = {
 	},
 	rotateSavedImg: async (req, res, next) => {
 		try {
+			const imgName = req.body.imgName;
+
+			if (!imgName) {
+				return next(new ApiError('imgName is required', 400));
+			} else if (typeof imgName !== 'string') {
+				return next(new ApiError('imgName must be string', 400));
+			}
+
 			await sharpTool.rotateImgAfterSave(req.body.imgName);
 
 			res.sendStatus(200);
