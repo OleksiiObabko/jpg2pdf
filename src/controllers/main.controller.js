@@ -88,23 +88,25 @@ module.exports = {
 		try {
 			const {imageNames, pdfNames} = req.session;
 
-			const deleteFiles = async (filenames, type) => {
-				let deleting;
-
-				if (type === 'img') {
-					deleting = filenames.map((filename) => unlink(path.join(imgDir, filename)));
-				} else if (type === 'pdf') {
-					deleting = filenames.map((filename) => unlink(path.join(pdfDir, filename)));
+			const deleteFilePromise = (dir, name) => {
+				try {
+					return unlink(path.join(dir, name));
+				} catch (error) {
+					throw new ApiError(`Error deleting ${name}:`, 500);
 				}
-
-				await Promise.all(deleting);
 			};
 
-			deleteFiles(imageNames, 'img').then();
-			deleteFiles(pdfNames, 'pdf').then();
+			if (imageNames?.length) {
+				const deleteImgPromises = imageNames.map(imgName => deleteFilePromise(imgDir, imgName));
+				await Promise.all(deleteImgPromises);
+			}
+			if (pdfNames?.length) {
+				const deletePdfPromises = await pdfNames.map(pdfName => deleteFilePromise(pdfDir, pdfName));
+				await Promise.all(deletePdfPromises);
+			}
 
-			req.session.imageNames = undefined;
-			req.session.pdfNames = undefined;
+			delete req.session.imageNames;
+			delete req.session.pdfNames;
 
 			res.redirect('/');
 		} catch (e) {
