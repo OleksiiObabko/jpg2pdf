@@ -1,0 +1,43 @@
+.page {
+	flex: 1 1 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #e0e5ec;
+}
+
+#select-files {
+	display: none;
+}
+
+.main-form__label {
+	margin: 20px;
+	outline: none;
+	width: 260px;
+	height: 80px;
+	font-weight: 700;
+	font-size: 20px;
+	padding: 10px 25px;
+	border: 2px solid #000;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.main-form__label:hover {
+	color: #ffffff;
+	background: #000;
+}
+
+@media (max-width: 720px) {
+	.main-form__label {
+		width: 220px;
+		height: 60px;
+		font-size: inherit;
+		padding: 7px 15px;
+	}
+}

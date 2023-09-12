@@ -1,26 +1,27 @@
 doctype html
 html
-    head
-        title IMG-to-PDF Converter
-        meta(charset='UTF-8')
-        script(type='module' src='/javascripts/sort.js' defer)
-        script(type='module' src='/javascripts/rotate.js' defer)
-    body
-        main
-            header
-                h1
-                    IMG2PDF
-            article
-                p
-                    a(href='/new') New +
-                div(class='listWithHandle')
-									each imageName in imageNames
-                      div
-                          img(src=`/images/${imageName}`, data-name=`${imageName}` alt=image,)
-                          button(class='rotate')
-                p
-                    a(class='convert')
-                        span(class='text') Convert to PDF &rarr;
-                        span(class='loader')
-                p
-                    a(class='download' download) Download &darr;
+	head
+		title IMG-to-PDF Converter
+		meta(charset='UTF-8')
+		script(type='module' src='/javascripts/sort.js' defer)
+		script(type='module' src='/javascripts/rotate.js' defer)
+	body
+		main
+			header
+				h1
+					IMG2PDF
+			article
+				p
+					a(href='/new') New +
+				div(class='listWithHandle')
+					each imageName in imageNames
+						div
+							img(src=`/images/${imageName}`, data-name=`${imageName}` alt=image,)
+							button(class='rotate')
+
+				p
+					a(class='convert')
+						span(class='text') Convert to PDF &rarr;
+						span(class='loader')
+				p
+					a(class='download' download) Download &darr;

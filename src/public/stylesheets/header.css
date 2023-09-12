@@ -1,0 +1,35 @@
+.header {
+	position: relative;
+	width: 100%;
+	left: 0;
+	top: 0;
+	z-index: 50;
+	background-color: #d8d1d1;
+}
+
+.header__container {
+	display: flex;
+	align-items: center;
+	min-height: 100px;
+}
+
+.header__link {
+	display: block;
+}
+
+.header__logo {
+	height: 78px;
+	top: 0;
+	left: 0;
+	object-fit: contain;
+}
+
+@media (max-width: 1280px) {
+	.header__container {
+		min-height: 80px;
+	}
+
+	.header__logo {
+		height: 58px;
+	}
+}
