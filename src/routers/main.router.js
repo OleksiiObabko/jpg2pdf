@@ -32,4 +32,10 @@ router.post(
 	mainController.rotateSavedImg,
 );
 
+router.delete(
+	'/del',
+	imgMiddleware.isImgDeleted,
+	mainController.deleteImage,
+);
+
 module.exports = router;

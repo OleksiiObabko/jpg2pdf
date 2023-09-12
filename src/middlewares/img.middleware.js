@@ -4,6 +4,7 @@ const {ApiError} = require('../errors');
 const {fileConfig} = require('../configs');
 const path = require('path');
 const {imgDir} = require('../enums/path.enum');
+const {promises: fs} = require('fs');
 
 
 module.exports = {
@@ -48,6 +49,22 @@ module.exports = {
 				} catch (e) {
 					return next(new ApiError(`File or directory ${imgPath} not found`, 404));
 				}
+			}
+
+			next();
+		} catch (e) {
+			next(e);
+		}
+	},
+	isImgDeleted: async (req, res, next) => {
+		try {
+			const {imgName} = req.body;
+			if (!imgName) return next(new ApiError('imgName is required', 400));
+
+			try {
+				await fs.access(path.join(imgDir, imgName));
+			} catch (e) {
+				return next(new ApiError(`Image ${imgName} has already deleted`, 400));
 			}
 
 			next();

@@ -13,15 +13,15 @@ html
 			article
 				p
 					a(href='/new') New +
-				div(class='listWithHandle')
-					each imageName in imageNames
-						div
-							img(src=`/images/${imageName}`, data-name=`${imageName}` alt=image,)
-							button(class='rotate')
-
-				p
-					a(class='convert')
-						span(class='text') Convert to PDF &rarr;
-						span(class='loader')
-				p
-					a(class='download' download) Download &darr;
+					div(class='listWithHandle')
+						each imageName in imageNames
+							div(class='item')
+								img(src=`/images/${imageName}`, data-name=`${imageName}` alt=image,)
+								button(class='rotate')
+								button(class='delete') Delete
+					p
+						a(class='convert')
+							span(class='text') Convert to PDF &rarr;
+							span(class='loader')
+					p
+						a(class='download' download) Download &darr;

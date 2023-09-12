@@ -130,4 +130,28 @@ module.exports = {
 			next(e);
 		}
 	},
+	deleteImage: async (req, res, next) => {
+		try {
+			const deleteImg = async (dir, name) => {
+				try {
+					await unlink(path.join(dir, name));
+				} catch (error) {
+					throw new ApiError(`Error deleting ${name}:`, 500);
+				}
+			};
+
+			const {imgName} = req.body;
+			const {imageNames} = req.session;
+
+			await deleteImg(imgDir, imgName);
+			const index = imageNames.indexOf(imgName);
+			if (index > -1) {
+				imageNames.splice(index, 1);
+			}
+
+			res.sendStatus(204);
+		} catch (e) {
+			next(e);
+		}
+	},
 };

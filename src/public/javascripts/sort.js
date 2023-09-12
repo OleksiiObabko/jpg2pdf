@@ -10,7 +10,7 @@ Sortable.create(listWithHandle, {
 const convertButton = document.querySelector('a.convert');
 
 convertButton.onclick = () => {
-	const images = document.querySelectorAll('img');
+	const images = document.querySelectorAll('.item img');
 	const loader = document.querySelector('span.loader');
 	const convertText = document.querySelector('span.text');
 	const downloadButton = document.querySelector('a.download');
