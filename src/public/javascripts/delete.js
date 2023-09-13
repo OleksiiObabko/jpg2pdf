@@ -13,7 +13,6 @@ async function deleteImage(imgName) {
 }
 
 const convertButton = document.querySelector('.content__convert');
-const downloadLink = document.querySelector('.content__link');
 const newButton = document.querySelector('.content__new');
 const deleteButtons = document.querySelectorAll('.gallery-item__delete');
 
@@ -33,7 +32,6 @@ deleteButtons.forEach(async button => {
 			newButton.removeAttribute('loading');
 			convertButton.removeAttribute('loading');
 			convertButton.style.display = 'flex';
-			downloadLink.style.display = 'none';
 			parentDiv.remove();
 
 			const gallery = document.querySelectorAll('.gallery-item');

@@ -14,16 +14,11 @@ const downloadLink = document.querySelector('.content__link');
 newButton.onclick = () => {
 	window.location.href = '/new';
 };
-downloadLink.onclick = () => {
-	convertButton.style.display = 'block';
-	downloadLink.style.display = 'none';
-};
 
 convertButton.onclick = () => {
 	const images = document.querySelectorAll('.gallery-item__image');
 
 	const filenames = [];
-
 	for (let image of images) {
 		filenames.push(image.dataset.name);
 	}
@@ -42,9 +37,8 @@ convertButton.onclick = () => {
 		})
 		.then((data) => {
 			convertButton.removeAttribute('loading');
-			convertButton.style.display = 'none';
-			downloadLink.style.display = 'flex';
 			downloadLink.href = data;
+			downloadLink.click();
 		})
 		.catch((error) => {
 			console.error(error.message);

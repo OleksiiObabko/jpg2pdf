@@ -27,7 +27,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 				parentDiv.setAttribute('loading', true);
 				convertButton.setAttribute('loading', true);
+
 				const rotatedImgName = await rotateImage(imageName);
+
 				parentDiv.removeAttribute('loading');
 				convertButton.removeAttribute('loading');
 
