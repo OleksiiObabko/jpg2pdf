@@ -116,6 +116,7 @@ module.exports = {
 	rotateSavedImg: async (req, res, next) => {
 		try {
 			const imgName = req.body.imgName;
+			const {imageNames} = req.session;
 
 			if (!imgName) {
 				return next(new ApiError('imgName is required', 400));
@@ -123,9 +124,14 @@ module.exports = {
 				return next(new ApiError('imgName must be string', 400));
 			}
 
-			await sharpTool.rotateImgAfterSave(req.body.imgName);
+			const rotatedImgName = await sharpTool.rotateImgAfterSave(imgName);
 
-			res.sendStatus(200);
+			const index = imageNames.indexOf(imgName);
+			if (index > -1) {
+				imageNames[index] = rotatedImgName;
+			}
+
+			res.status(200).json(rotatedImgName);
 		} catch (e) {
 			next(e);
 		}

@@ -9,14 +9,18 @@ Sortable.create(listWithHandle, {
 
 const convertButton = document.querySelector('.content__convert');
 const newButton = document.querySelector('.content__new');
+const downloadLink = document.querySelector('.content__link');
 
 newButton.onclick = () => {
 	window.location.href = '/new';
 };
+downloadLink.onclick = () => {
+	convertButton.style.display = 'block';
+	downloadLink.style.display = 'none';
+};
 
 convertButton.onclick = () => {
 	const images = document.querySelectorAll('.gallery-item__image');
-	const downloadLink = document.querySelector('.content__link');
 
 	const filenames = [];
 
@@ -24,8 +28,7 @@ convertButton.onclick = () => {
 		filenames.push(image.dataset.name);
 	}
 
-	convertButton.style.pointerEvents = 'none';
-	convertButton.style.opacity = 0.5;
+	convertButton.setAttribute('loading', true);
 
 	fetch('/pdf', {
 		method: 'POST',
@@ -38,6 +41,7 @@ convertButton.onclick = () => {
 			return resp.text();
 		})
 		.then((data) => {
+			convertButton.removeAttribute('loading');
 			convertButton.style.display = 'none';
 			downloadLink.style.display = 'flex';
 			downloadLink.href = data;

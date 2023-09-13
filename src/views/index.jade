@@ -26,8 +26,8 @@ html
 						each imageName in imageNames
 							div(class='gallery__item gallery-item')
 								img(class='gallery-item__image' src=`/images/${imageName}`, data-name=`${imageName}` alt=image,)
-								button(class='gallery-item__rotate') r
-								button(class='gallery-item__delete') -
-					butoon(class='content__convert main-button')
+								img(class='gallery-item__rotate' src='../icons/rotate-arrow.png')
+								img(class='gallery-item__delete' src='../icons/delete-button.png')
+					button(class='content__convert main-button')
 						span(class='content__convert-text') Convert to PDF
 					a(class='content__link main-button' download) Download

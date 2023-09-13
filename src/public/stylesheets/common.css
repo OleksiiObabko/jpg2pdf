@@ -40,3 +40,8 @@
 	color: #ffffff;
 	background: #000;
 }
+
+[loading=true] {
+	pointer-events: none;
+	opacity: 0.5;
+}

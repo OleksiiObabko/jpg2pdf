@@ -7,16 +7,17 @@ const {imgDir} = require('../enums/path.enum');
 module.exports = {
 	rotateImgAfterSave: async (imgName) => {
 		try {
+			const ext = path.extname(imgName);
 			const imgPath = path.join(imgDir, imgName);
-			const tempFilePath = imgPath + '.temp';
+			const rotatedImgName = Date.now().toString() + ext;
+			const rotatedImgPath = path.join(imgDir, rotatedImgName);
 
-			await fs.rename(imgPath, tempFilePath);
-
-			await sharp(tempFilePath)
+			await sharp(imgPath)
 				.rotate(90)
-				.toFile(imgPath);
+				.toFile(rotatedImgPath);
+			await fs.unlink(imgPath);
 
-			await fs.unlink(tempFilePath);
+			return rotatedImgName;
 		} catch (error) {
 			console.error('Error rotating image:', error);
 		}

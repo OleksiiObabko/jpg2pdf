@@ -62,25 +62,29 @@
 }
 
 .gallery-item__rotate {
+	margin-right: 2px;
 	position: absolute;
 	top: 0;
 	right: 10%;
-	width: 40px;
-	height: 40px;
+	width: 35px;
+	height: 35px;
 	transform: translate(50%, -50%);
 	border-radius: 50%;
-	border: 2px solid #000;
+	cursor: pointer;
+	/*border: 2px solid #000;*/
 }
 
 .gallery-item__delete {
+	margin-left: 5px;
 	position: absolute;
 	top: 0;
 	right: 0;
-	width: 40px;
-	height: 40px;
+	width: 30px;
+	height: 30px;
 	transform: translate(50%, -50%);
 	border-radius: 50%;
-	border: 2px solid #000;
+	/*border: 2px solid #000;*/
+	cursor: pointer;
 }
 
 .content__convert {

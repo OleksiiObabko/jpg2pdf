@@ -14,31 +14,35 @@ async function deleteImage(imgName) {
 
 const convertButton = document.querySelector('.content__convert');
 const downloadLink = document.querySelector('.content__link');
+const newButton = document.querySelector('.content__new');
+const deleteButtons = document.querySelectorAll('.gallery-item__delete');
 
-document.addEventListener('DOMContentLoaded', function () {
-	const deleteButtons = document.querySelectorAll('.gallery-item__delete');
+deleteButtons.forEach(async button => {
+	button.addEventListener('click', async function () {
+		const parentDiv = this.closest('.gallery-item');
+		const image = parentDiv.querySelector('.gallery-item__image');
+		const imageName = image.getAttribute('data-name');
 
-	deleteButtons.forEach(async button => {
-		button.addEventListener('click', async function () {
-			const parentDiv = this.closest('.gallery-item');
-			const image = parentDiv.querySelector('.gallery-item__image');
+		try {
+			parentDiv.setAttribute('loading', true);
+			convertButton.setAttribute('loading', true);
+			newButton.setAttribute('loading', true);
 
-			const imageName = image.getAttribute('data-name');
-			try {
-				parentDiv.style.pointerEvents = 'none';
-				await deleteImage(imageName);
-				parentDiv.remove();
+			await deleteImage(imageName);
 
-				convertButton.style.display = 'flex';
-				downloadLink.style.display = 'none';
+			newButton.removeAttribute('loading');
+			convertButton.removeAttribute('loading');
+			convertButton.style.display = 'flex';
+			downloadLink.style.display = 'none';
+			parentDiv.remove();
 
-				const gallery = document.querySelectorAll('.gallery-item');
-				if (!gallery.length) {
-					window.location.href = '/new';
-				}
-			} catch (e) {
-				console.log(e);
+			const gallery = document.querySelectorAll('.gallery-item');
+			if (!gallery.length) {
+				newButton.setAttribute('loading', true);
+				window.location.href = '/new';
 			}
-		});
+		} catch (e) {
+			console.log(e);
+		}
 	});
 });
