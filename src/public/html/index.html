@@ -25,7 +25,7 @@
 		<form class="page__form main-form _container" id="main-form" method="post" action="/upload"
 					enctype="multipart/form-data">
 			<input id="select-files" type="file" name="images" accept=".png, .jpg" multiple />
-			<label class="main-form__label" for="select-files">Select files</label>
+			<label class="main-form__label main-button" for="select-files">Select files</label>
 		</form>
 	</main>
 </div>
@@ -33,9 +33,12 @@
 <script>
 	const form = document.getElementById('main-form');
 	const fileUpload = document.getElementById('select-files');
+	const label = document.querySelector('.main-form__label');
 
 	fileUpload.onchange = () => {
 		form.submit();
+		label.style.pointerEvents = 'none';
+		label.style.opacity = 0.5;
 	};
 </script>
 </html>

@@ -1,28 +1,31 @@
 import Sortable from '/javascripts/sortable.core.esm.js';
 
-const listWithHandle = document.querySelector('div.listWithHandle');
+const listWithHandle = document.querySelector('.content__gallery');
 
 Sortable.create(listWithHandle, {
 	handle: 'img',
 	animation: 150,
 });
 
-const convertButton = document.querySelector('a.convert');
+const convertButton = document.querySelector('.content__convert');
+const newButton = document.querySelector('.content__new');
+
+newButton.onclick = () => {
+	window.location.href = '/new';
+};
 
 convertButton.onclick = () => {
-	const images = document.querySelectorAll('.item img');
-	const loader = document.querySelector('span.loader');
-	const convertText = document.querySelector('span.text');
-	const downloadButton = document.querySelector('a.download');
+	const images = document.querySelectorAll('.gallery-item__image');
+	const downloadLink = document.querySelector('.content__link');
 
 	const filenames = [];
 
 	for (let image of images) {
 		filenames.push(image.dataset.name);
 	}
-	//activate loading animation
-	loader.style.display = 'inline-block';
-	convertText.style.display = 'none';
+
+	convertButton.style.pointerEvents = 'none';
+	convertButton.style.opacity = 0.5;
 
 	fetch('/pdf', {
 		method: 'POST',
@@ -35,18 +38,11 @@ convertButton.onclick = () => {
 			return resp.text();
 		})
 		.then((data) => {
-			//stop the loading animation
-			loader.style.display = 'none';
-
-			//display the convert and download button
-			convertText.style.display = 'inline-block';
-			downloadButton.style.display = 'inline-block';
-
-			downloadButton.href = data;
+			convertButton.style.display = 'none';
+			downloadLink.style.display = 'flex';
+			downloadLink.href = data;
 		})
 		.catch((error) => {
 			console.error(error.message);
 		});
 };
-
-

@@ -12,13 +12,16 @@ async function deleteImage(imgName) {
 	}
 }
 
+const convertButton = document.querySelector('.content__convert');
+const downloadLink = document.querySelector('.content__link');
+
 document.addEventListener('DOMContentLoaded', function () {
-	const deleteButtons = document.querySelectorAll('.delete');
+	const deleteButtons = document.querySelectorAll('.gallery-item__delete');
 
 	deleteButtons.forEach(async button => {
 		button.addEventListener('click', async function () {
-			const parentDiv = this.closest('.item');
-			const image = parentDiv.querySelector('img');
+			const parentDiv = this.closest('.gallery-item');
+			const image = parentDiv.querySelector('.gallery-item__image');
 
 			const imageName = image.getAttribute('data-name');
 			try {
@@ -26,7 +29,10 @@ document.addEventListener('DOMContentLoaded', function () {
 				await deleteImage(imageName);
 				parentDiv.remove();
 
-				const gallery = document.querySelectorAll('.item');
+				convertButton.style.display = 'flex';
+				downloadLink.style.display = 'none';
+
+				const gallery = document.querySelectorAll('.gallery-item');
 				if (!gallery.length) {
 					window.location.href = '/new';
 				}

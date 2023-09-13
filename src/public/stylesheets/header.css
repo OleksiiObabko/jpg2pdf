@@ -4,12 +4,14 @@
 	left: 0;
 	top: 0;
 	z-index: 50;
-	background-color: #d8d1d1;
+	background-color: #ffffff;
+	border: 2px solid #ececec;
 }
 
 .header__container {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	min-height: 100px;
 }
 

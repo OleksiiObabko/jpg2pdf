@@ -1,3 +1,7 @@
+:root {
+	--background: #f3f3f3
+}
+
 .wrapper {
 	display: flex;
 	flex-direction: column;
@@ -14,4 +18,25 @@
 
 ._ibg {
 	position: relative;
+}
+
+.main-button {
+	font-weight: 700;
+	font-size: 20px;
+	padding: 10px 25px;
+	border: 2px solid #000;
+	outline: none;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #fff;
+}
+
+.main-button:hover {
+	color: #ffffff;
+	background: #000;
 }

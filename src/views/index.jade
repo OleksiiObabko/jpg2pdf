@@ -3,25 +3,31 @@ html
 	head
 		title IMG-to-PDF Converter
 		meta(charset='UTF-8')
+		meta(name='viewport' content='width=device-width, initial-scale=1.0')
 		script(type='module' src='/javascripts/sort.js' defer)
 		script(type='module' src='/javascripts/rotate.js' defer)
+		script(type='module' src='/javascripts/delete.js' defer)
+		link(rel='stylesheet' href='../stylesheets/normalize.css')
+		link(rel='stylesheet' href='../stylesheets/common.css')
+		link(rel='stylesheet' href='../stylesheets/header.css')
+		link(rel='stylesheet' href='../stylesheets/main.css')
+		link(rel='stylesheet'
+			href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap')
 	body
-		main
-			header
-				h1
-					IMG2PDF
-			article
-				p
-					a(href='/new') New +
-					div(class='listWithHandle')
+		div(class='wrapper')
+			header(class='header')
+				div(class='header__container _container')
+					a(class='header__link _ibg' href='/new')
+						img(class='header__logo' src='../icons/logo.png' alt='logo')
+			main(class='page')
+				div(class='page__content content _container')
+					button(class='content__new main-button') New +
+					div(class='content__gallery')
 						each imageName in imageNames
-							div(class='item')
-								img(src=`/images/${imageName}`, data-name=`${imageName}` alt=image,)
-								button(class='rotate')
-								button(class='delete') Delete
-					p
-						a(class='convert')
-							span(class='text') Convert to PDF &rarr;
-							span(class='loader')
-					p
-						a(class='download' download) Download &darr;
+							div(class='gallery__item gallery-item')
+								img(class='gallery-item__image' src=`/images/${imageName}`, data-name=`${imageName}` alt=image,)
+								button(class='gallery-item__rotate') r
+								button(class='gallery-item__delete') -
+					butoon(class='content__convert main-button')
+						span(class='content__convert-text') Convert to PDF
+					a(class='content__link main-button' download) Download
