@@ -17,10 +17,9 @@ JPG to PDG converter
 
 `git clone https://github.com/OleksiiObabko/Recipes.git`
 
-```
-npm install
-npm run start
-```
+`npm install`
+
+`npm run start`
 
 ## Usage
 
