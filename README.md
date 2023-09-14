@@ -10,9 +10,8 @@ JPG to PDG converter
 
 ## Screenshots
 
-![image]()
-![image]()
-![image]()
+![image](https://github.com/OleksiiObabko/jpg2pdf/assets/97622905/59a7dcec-14f2-4587-8353-4b68932b48c1)
+![image](https://github.com/OleksiiObabko/jpg2pdf/assets/97622905/a108f946-e54a-4aa7-be89-6c7625931128)
 
 ## Installation
 
