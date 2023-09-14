@@ -15,7 +15,7 @@ JPG to PDG converter
 
 ## Installation
 
-`git clone https://github.com/OleksiiObabko/Recipes.git`
+`git clone https://github.com/OleksiiObabko/jpg2pdf`
 
 `npm install`
 
